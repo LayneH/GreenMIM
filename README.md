@@ -3,12 +3,16 @@
 This is the official PyTorch implementation of the paper [Green Hierarchical Vision Transformer for Masked Image Modeling]().
 
 <p align="center">
-  <img src="figs/GroupAttention.png" width="480">
+  <img src="figs/GroupAttention.png" >
+</p>
+<p align="center">
   Group Attention Scheme.
 </p>
 
 <p align="center">
-  <img src="figs/GreenMIM.png" width="480">
+  <img src="figs/GreenMIM.png" >
+</p>
+<p align="center">
   Method Overview.
 </p>
 
