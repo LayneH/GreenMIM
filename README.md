@@ -1,6 +1,6 @@
 # GreenMIM
 
-This is the official PyTorch implementation of the paper [Green Hierarchical Vision Transformer for Masked Image Modeling]().
+This is the official PyTorch implementation of the paper [Green Hierarchical Vision Transformer for Masked Image Modeling](https://arxiv.org/abs/2205.13515).
 
 <p align="center">
   <img src="figs/GroupAttention.png" >
@@ -15,6 +15,18 @@ This is the official PyTorch implementation of the paper [Green Hierarchical Vis
 <p align="center">
   Method Overview.
 </p>
+
+## Citation
+If you find our work interesting or use our code/models, please cite:
+
+```bibtex
+@article{huang2022green,
+  title={Green Hierarchical Vision Transformer for Masked Image Modeling},
+  author={Huang, Lang and You, Shan and Zheng, Mingkai and Wang, Fei and Qian, Chen and Yamasaki, Toshihiko},
+  journal={arXiv preprint arXiv:2205.13515},
+  year={2022}
+}
+```
 
 ## Catalogs
 
@@ -59,6 +71,10 @@ Instructions for non-slurm users will be available soon.
 | Swin-L (Window 14x14) | 197M | 224x224 | 224x224 | 85.1 |
 
 The code will be available soon.
+
+
+# Acknowledgement
+This code is based on the implementations of [MAE](https://github.com/facebookresearch/mae), [BEiT](https://github.com/microsoft/unilm/tree/master/beit), [SwinTransformer](https://github.com/microsoft/Swin-Transformer), and [DeiT](https://github.com/facebookresearch/deit).
 
 ## License
 
