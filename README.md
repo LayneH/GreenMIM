@@ -55,7 +55,7 @@ If you find our work interesting or use our code/models, please cite:
 
 The pre-training scripts are given in the `scripts/` folder. The scripts with names start with 'run*' are for non-slurm users while the others are for slurm users.
 
-#### For non-Slurm Users
+#### For Non-Slurm Users
 
 To train a Swin-B with on a single node with 8 GPUs.
 ```bash
