@@ -1,0 +1,22 @@
+MODEL:
+  TYPE: swin
+  NAME: greenmim_finetune
+  DROP_PATH_RATE: 0.3
+  SWIN:
+    EMBED_DIM: 192
+    DEPTHS: [ 2, 2, 18, 2 ]
+    NUM_HEADS: [ 6, 12, 24, 48 ]
+    WINDOW_SIZE: 14
+DATA:
+  IMG_SIZE: 224
+TRAIN:
+  EPOCHS: 100
+  WARMUP_EPOCHS: 20
+  BASE_LR: 1e-3
+  WARMUP_LR: 2e-7
+  MIN_LR: 3.5e-7
+  WEIGHT_DECAY: 0.05
+  LAYER_DECAY: 0.8
+PRINT_FREQ: 100
+SAVE_FREQ: 5
+TAG: greenmim_finetune_swin_large_img224_window14

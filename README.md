@@ -32,7 +32,7 @@ If you find our work interesting or use our code/models, please cite:
 
 - [x] Pre-trained checkpoints
 - [x] Pre-training code
-- [ ] Fine-tuning code
+- [x] Fine-tuning code
 
 ## Pre-trained Models
 
@@ -53,29 +53,37 @@ If you find our work interesting or use our code/models, please cite:
 
 ## Pre-training
 
-The pre-training scripts for slurm users are given in the `scripts/` folder.
+The pre-training scripts are given in the `scripts/` folder. The scripts with names start with 'run*' are for non-slurm users while the others are for slurm users.
 
-To train a Swin-B with on a single node with 8 GPUs:
+#### For non-Slurm Users
 
+To train a Swin-B with on a single node with 8 GPUs.
 ```bash
-bash scripts/run_mae_swin_base.sh [Partition] [NUM_GPUS] 
+PORT=23456 NPROC=8 bash scripts/run_mae_swin_base.sh
+```
+
+#### For Slurm Users
+
+To train a Swin-B with on a single node with 8 GPUs.
+```bash
+bash scripts/srun_mae_swin_base.sh [Partition] [NUM_GPUS] 
 ```
 
 Instructions for non-slurm users will be available soon.
 
-## Fine-tuning
+## Fine-tuning on ImageNet-1K
 
-| Model | #Params | Pre-train Resolution | Fine-tune Resolution | Acc@1 (%) |
-| :---- | ------- | -------------------- | -------------------- | ------------ |
-| Swin-B (Window 7x7) | 88M | 224x224 | 224x224 | 83.7 |
-| Swin-L (Window 14x14) | 197M | 224x224 | 224x224 | 85.1 |
+| Model | #Params | Pre-train Resolution | Fine-tune Resolution | Config | Acc@1 (%) |
+| :---- | ------- | -------------------- | -------------------- | ------ | --------- |
+| Swin-B (Window 7x7) | 88M | 224x224 | 224x224 |  [Config](ft_configs/greenmim_finetune_swin_base_img224_win7.yaml)  | 83.7 |
+| Swin-L (Window 14x14) | 197M | 224x224 | 224x224 | [Config](ft_configs/greenmim_finetune_swin_large_img224_win14.yaml)  | 85.1 |
 
-The code will be available soon.
+Currently, we directly use the code of [SimMIM](https://github.com/microsoft/SimMIM) for fine-tuning, please follow [their instructions](https://github.com/microsoft/SimMIM#fine-tuning-pre-trained-models) to use the configs. NOTE that, due to the limited computing resource, we use a batch size of 1024 (128 x 8) for Swin-B and a batch size of 768 (48 x 16) for fine-tuning.
 
 
 # Acknowledgement
-This code is based on the implementations of [MAE](https://github.com/facebookresearch/mae), [BEiT](https://github.com/microsoft/unilm/tree/master/beit), [SwinTransformer](https://github.com/microsoft/Swin-Transformer), and [DeiT](https://github.com/facebookresearch/deit).
+This code is based on the implementations of [MAE](https://github.com/facebookresearch/mae), [SimMIM](https://github.com/microsoft/SimMIM), [BEiT](https://github.com/microsoft/unilm/tree/master/beit), [SwinTransformer](https://github.com/microsoft/Swin-Transformer), and [DeiT](https://github.com/facebookresearch/deit).
 
-## License
+# License
 
 This project is under the CC-BY-NC 4.0 license. See [LICENSE](LICENSE) for details.
