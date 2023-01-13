@@ -23,20 +23,17 @@ from torch.utils.tensorboard import SummaryWriter
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 
-import timm
-assert timm.__version__ == "0.3.2"  # version check
 import timm.optim.optim_factory as optim_factory
 
 import util.misc as misc
 from util.misc import NativeScalerWithGradNormCount as NativeScaler
 
-import models_swin
-
 from engine_pretrain import train_one_epoch
+from modeling import get_pretrain_model
 
 
 def get_args_parser():
-    parser = argparse.ArgumentParser('MAE pre-training', add_help=False)
+    parser = argparse.ArgumentParser('GreenMIM pre-training', add_help=False)
     parser.add_argument('--batch_size', default=64, type=int,
                         help='Batch size per GPU (effective batch size is batch_size * accum_iter * # gpus')
     parser.add_argument('--epochs', default=400, type=int)
@@ -44,7 +41,7 @@ def get_args_parser():
                         help='Accumulate gradient iterations (for increasing the effective batch size under memory constraints)')
 
     # Model parameters
-    parser.add_argument('--model', default='mae_vit_large_patch16', type=str, metavar='MODEL',
+    parser.add_argument('--model', default='green_mim_swin_base_patch4_dec5121b1', type=str, metavar='MODEL',
                         help='Name of model to train')
 
     parser.add_argument('--input_size', default=224, type=int,
@@ -154,10 +151,7 @@ def main(args):
     )
     
     # define the model
-    if args.model in models_swin.__dict__:
-        model = models_swin.__dict__[args.model](norm_pix_loss=args.norm_pix_loss)
-    else:
-        raise KeyError(f"Model `{args.model}` is not suuported.")
+    model = get_pretrain_model(args.model, norm_pix_loss=args.norm_pix_loss)
     model.to(device)
 
     model_without_ddp = model
@@ -175,13 +169,14 @@ def main(args):
     print("effective batch size: %d" % eff_batch_size)
 
     if args.distributed:
-        model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.gpu])#, find_unused_parameters=True)
+        model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.gpu])
         model_without_ddp = model.module
     
     # following timm: set wd as 0 for bias and norm layers
     skip_list = [name for name, _ in model_without_ddp.named_parameters() if 'position_bias' in name or 'token' in name]
     print('skip_list = ', skip_list)
-    param_groups = optim_factory.add_weight_decay(model_without_ddp, args.weight_decay, skip_list=skip_list)
+    param_groups = optim_factory.param_groups_weight_decay(model_without_ddp, args.weight_decay, no_weight_decay_list=skip_list)
+    # param_groups = optim_factory.add_weight_decay(model_without_ddp, args.weight_decay, skip_list=skip_list)
     optimizer = torch.optim.AdamW(param_groups, lr=args.lr, betas=(0.9, 0.95))
     print(optimizer)
     loss_scaler = NativeScaler()

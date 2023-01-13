@@ -28,14 +28,18 @@ class DatasetCache(data.Dataset):
             self.initialized = True
 
     def load_image(self, filename):
-        self._init_memcached()
-        value = mc.pyvector()
-        self.mclient.Get(filename, value)
-        value_str = mc.ConvertBuffer(value)
-        
-        buff = io.BytesIO(value_str)
-        with Image.open(buff) as img:
-            img = img.convert('RGB')
+        if mc is not None:
+            self._init_memcached()
+            value = mc.pyvector()
+            self.mclient.Get(filename, value)
+            value_str = mc.ConvertBuffer(value)
+            
+            buff = io.BytesIO(value_str)
+            with Image.open(buff) as img:
+                img = img.convert('RGB')
+        else:
+            with Image.open(filename) as img:
+                img = img.convert('RGB')
         return img
 
 

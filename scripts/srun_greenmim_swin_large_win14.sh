@@ -2,7 +2,7 @@
 
 set -x
 
-METHOD=green_mim_swin_base_patch4_dec5121b1
+METHOD=green_mim_swin_large_patch4_win14_dec5121b1
 DSET='in1k'
 DATA_PATH="/mnt/cache/share/images/"
 LR=1.0e-4
@@ -35,6 +35,7 @@ srun -p ${PARTITION} \
     ${SRUN_ARGS} \
     ${PYTHON} -u main_pretrain.py \
         --output_dir ${CKPT_DIR} \
+        --log_dir ${CKPT_DIR} \
         --batch_size ${BS} \
         --model ${METHOD} \
         --norm_pix_loss \
