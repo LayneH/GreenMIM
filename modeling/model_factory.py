@@ -7,7 +7,7 @@
 from functools import partial
 import torch.nn as nn
 
-from .base_green_model import MaskedAutoencoder
+from .base_green_models import MaskedAutoencoder
 from .green_swin_models import SwinTransformer
 from .green_twins_models import ALTGVT as TwinsTransformer
 
