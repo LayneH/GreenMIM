@@ -1,12 +1,3 @@
-# Modified by Lang Huang (laynehuang@outlook.com)
-# All rights reserved.
-
-# This source code is licensed under the license found in the
-# LICENSE file in the root directory of this source tree.
-# --------------------------------------------------------
-# References:
-# Swin Transformer: https://github.com/Meituan-AutoML/Twins
-# --------------------------------------------------------
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -15,7 +6,7 @@ from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 from timm.models.vision_transformer import Block as TimmBlock
 from timm.models.vision_transformer import Attention as TimmAttention
 
-from .base_green_model import BaseGreenModel
+from .base_green_models import BaseGreenModel
 from .sparse_conv_spconv import SparseConv2d, SparseDWConv2d
 from .group_window_attention import GroupingModule, get_coordinates
 from .green_swin_models import Mlp

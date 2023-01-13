@@ -6,7 +6,6 @@
 # --------------------------------------------------------
 # References:
 # Swin Transformer: https://github.com/microsoft/Swin-Transformer
-# --------------------------------------------------------
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
@@ -14,7 +13,7 @@ import torch.utils.checkpoint as checkpoint
 
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 
-from .base_green_model import BaseGreenModel
+from .base_green_models import BaseGreenModel
 from .group_window_attention import WindowAttention, GroupingModule, get_coordinates
 
 
