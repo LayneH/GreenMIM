@@ -130,9 +130,11 @@ class PatchMerging(nn.Module):
         coords_vis_local = coords_vis_local[:, 0] * H + coords_vis_local[:, 1]
         idx_shuffle = torch.argsort(torch.argsort(coords_vis_local))
 
-
         x = torch.index_select(x, 1, index=idx_shuffle)
-        x = x.reshape(B, L//4, 4*C)
+        x = x.reshape(B, L//4, 4, C)
+        # row-first order to column-first order
+        # make it compatible with Swin (https://github.com/microsoft/Swin-Transformer/blob/main/models/swin_transformer.py#L342)
+        x = torch.cat([x[:, :, 0], x[:, :, 2], x[:, :, 1], x[:, :, 3]], dim=-1)
         
         # merging by a linear layer
         x = self.norm(x)

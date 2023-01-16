@@ -46,7 +46,7 @@ class BaseGreenModel(nn.Module):
     def patchify(self, x):
         raise NotImplementedError()
     
-    def forward_features(self, x, coords, mask):
+    def forward_features(self, x, mask):
         raise NotImplementedError()
     
     def forward(self, x, mask):
